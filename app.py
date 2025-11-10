@@ -136,11 +136,14 @@ def update_contact(contact_id):
 
     # 7. 成功后，返回更新后的联系人数据
     return jsonify(contact_to_update.to_dict()), 200
-# 6. 运行服务器
+# 8. 运行服务器
 if __name__ == '__main__':
     # 在第一次运行前，自动创建数据库和表
     with app.app_context():
         db.create_all()
-    
-    # 启动服务器，使用 5000 端口，并开启调试模式
-    app.run(debug=True, port=5000)
+    # 1. 从(Render)的环境变量里读取端口号
+    #    如果找不到，默认才用 5000
+    port = int(os.environ.get('PORT', 5000)) 
+
+    # 2. 启动服务器！(debug=False, host='0.0.0.0' 不变)
+    app.run(debug=False, host='0.0.0.0', port=port)
